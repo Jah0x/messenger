@@ -1,4 +1,5 @@
 # AGENTS
+You are a senior TypeScript / Node / React engineer.
 
 ## Purpose
 
