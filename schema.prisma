@@ -1,0 +1,57 @@
+model User {
+  id               String    @id @default(cuid())
+  ldapDn           String?   @unique
+  username         String?   @unique
+  displayName      String?
+  email            String?
+  isOnline         Boolean   @default(false)
+  lastSeen         DateTime  @default(now())
+  publicKey        String? // Публичный ключ для шифрования
+  bio              String? // Биография пользователя
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  // Контакты, которых добавил пользователь
+  addedContacts    Contact[] @relation("UserContacts")
+  // Пользователи, которые добавили этого пользователя
+  addedBy          Contact[] @relation("ContactUser")
+}
+
+model Message {
+  id           String   @id @default(cuid())
+  content      String // Зашифрованное содержимое (заглушка)
+  encryptedKey String? // Зашифрованный ключ сообщения (заглушка)
+  messageType  String   @default("text") // text, file, image
+  isDelivered  Boolean  @default(false)
+  isRead       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  senderId     String
+  receiverId   String
+  sender       User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver     User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+
+  @@index([senderId, receiverId])
+  @@index([createdAt])
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  userId    String // Пользователь, который добавил контакт
+  contactId String // ID добавленного контакта
+  nickname  String? // Пользовательское имя для контакта
+  addedAt   DateTime @default(now())
+  user      User     @relation("UserContacts", fields: [userId], references: [id], onDelete: Cascade)
+  contact   User     @relation("ContactUser", fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contactId])
+  @@index([userId])
+}
+
+model LdapConfig {
+  id       String @id @default(cuid())
+  url      String @default("ldap://localhost:3893")
+  baseDn   String @default("dc=glauth,dc=com")
+  bindDn   String @default("cn=serviceuser,ou=svcaccts,dc=glauth,dc=com")
+  bindPass String @default("mysecret")
+}
