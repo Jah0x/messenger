@@ -1,0 +1,18 @@
+{
+  "name": "messenger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node api.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "expect": "^30.0.0-beta.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
