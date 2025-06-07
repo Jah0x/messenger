@@ -10,6 +10,15 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "dependencies": {
+    "@prisma/client": "^5.12.0",
+    "@tanstack/react-query": "^4.38.0",
+    "framer-motion": "^10.16.0",
+    "lucide-react": "^0.321.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3"
+  },
   "devDependencies": {
     "expect": "^30.0.0-beta.3",
     "ts-node": "^10.9.2",
